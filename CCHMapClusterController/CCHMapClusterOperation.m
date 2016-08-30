@@ -116,7 +116,11 @@
             NSArray *annotationSets;
             if (disableClustering) {
                 // Create annotation for each unique location because clustering is disabled
-                annotationSets = CCHMapClusterControllerAnnotationSetsByUniqueLocations(allAnnotationsInCell, NSUIntegerMax);
+                NSMutableArray *mutableAnnotationSets = [NSMutableArray array];
+                for (id location in allAnnotationsInCell) {
+                    [mutableAnnotationSets addObject:[NSSet setWithObject:location]];
+                }
+                annotationSets = mutableAnnotationSets;
                 annotationSetsAreUniqueLocations = YES;
             } else {
                 NSUInteger max = _minUniqueLocationsForClustering > 1 ? _minUniqueLocationsForClustering - 1 : 1;
